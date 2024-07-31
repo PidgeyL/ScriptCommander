@@ -27,6 +27,7 @@ class ScriptManager(metaclass=Singleton):
         script_spec.loader.exec_module(script_file)
         script      = script_file.Script()
         script.hash = hashlib.shake_256(open(_path, 'rb').read()).hexdigest(4)
+        script.path = _path
         return script
 
 

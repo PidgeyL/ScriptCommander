@@ -5,7 +5,8 @@ class Script():
     name     = "Example Script"
     version  = "0.1"
     settings = []
-    hash     = "NotSet"
+    hash     = None
+    path     = None
 
     def __init__(self):
         pass
