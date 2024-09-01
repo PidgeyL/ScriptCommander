@@ -11,7 +11,7 @@ def settings():
 @settings.command()
 @click.argument('setting')
 @click.argument('value', required=False)
-+@click.option("-b", "--boolean", is_flag=True)
+@click.option("-b", "--boolean", is_flag=True)
 def set(setting, value, boolean):
     """Set setting"""
     if not value:
