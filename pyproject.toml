@@ -64,6 +64,10 @@ dependencies = [
 # [project.scripts]  # Optional
 # sample = "sample:main"
 
+[project.scripts]
+scriptcommander = "scriptcommander.ui.main:manager"
+
+
 [build-system]
 requires      = ["setuptools>=43.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
