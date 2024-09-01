@@ -1,5 +1,6 @@
 import click
 
+from scriptcommander.scripts     import ScriptManager
 from scriptcommander.ui.logs     import logs
 from scriptcommander.ui.scripts  import scripts
 from scriptcommander.ui.settings import settings
