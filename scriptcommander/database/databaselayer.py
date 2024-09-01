@@ -3,10 +3,11 @@ from datetime import datetime
 from scriptcommander.database  import Database
 from scriptcommander.tools     import Singleton
 
-_LOG_LEVELS_ = {'debug': 1, 'info': 2, 'warning': 3, 'error': 4, 'critical': 5}
+_LOG_LEVELS_          = {'debug': 1, 'info': 2, 'warning': 3, 'error': 4, 'critical': 5}
+_LOG_LEVELS_REVERSED_ = {v: k for k, v in _LOG_LEVELS_.items()}
+
 
 class DatabaseLayer(metaclass=Singleton):
-
     def __init__(self):
         self.db = Database()
 
@@ -29,6 +30,7 @@ class DatabaseLayer(metaclass=Singleton):
     def delete_script(self, script):
         self.db.delete_script(script['script_hash'])
 
+
     # Settings
     def set_setting(self, setting, value):
         self.db.set_setting(setting, value)
@@ -45,9 +47,19 @@ class DatabaseLayer(metaclass=Singleton):
     def list_settings(self):
         return [x['name'] for x in self.db.list_settings()] or []
 
+
     # Logs
     def add_log(self, script_hash, level, text):
         now = datetime.now()
         if isinstance(level, str):
             level = _LOG_LEVELS_.get(level.lower(), 0)
         self.db.add_log(script_hash, now, level, text)
+
+    def get_logs(self, script_hash=None):
+        if script_hash:
+            logs = self.db.get_logs_for_script(script_hash)
+        else:
+            logs = self.db.get_all_logs()
+        for log in logs:
+            log['level'] = _LOG_LEVELS_REVERSED_[log['level']]
+        return logs

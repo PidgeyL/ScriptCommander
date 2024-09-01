@@ -103,3 +103,15 @@ class Database():
     def add_log(self, cur, script_hash, log_time, level, text):
         cur.execute("""INSERT INTO logs(script_hash, alert_time, level, text)
                        VALUES(?, ?, ?, ?)""", (script_hash, log_time, level, text))
+
+    @getting
+    def get_all_logs(self, cur):
+        return cur.execute("""SELECT *
+                              FROM logs;""")
+
+
+    @getting
+    def get_logs_for_script(self, cur, hash):
+        return cur.execute("""SELECT *
+                              FROM logs
+                              WHERE script_hash = ?;""", (hash,))
