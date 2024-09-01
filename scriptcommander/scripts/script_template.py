@@ -1,5 +1,11 @@
+import os
+import sys
+
 from scriptcommander.database import DatabaseLayer
 from scriptcommander.logging  import ScriptLogger
+from scriptcommander.settings import script_dir
+
+sys.path.append(script_dir)
 
 class Script():
     name     = "Example Script"

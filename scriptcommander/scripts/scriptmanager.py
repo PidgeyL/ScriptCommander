@@ -48,8 +48,7 @@ class ScriptManager(metaclass=Singleton):
                     entry['script_hash']    = hashlib.shake_256(open(_path, 'rb').read()).hexdigest(4)
                     scripts.append(entry)
                 except AttributeError as e:
-                    if "Script" in str(e):
-                        print(e)
+                    if "has no attribute 'Script'" in str(e):
                         pass
                     else:
                         print(e)

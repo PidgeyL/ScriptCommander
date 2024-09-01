@@ -1,7 +1,7 @@
 import click
 
-from scriptcommander.scripts      import ScriptManager
-from scriptcommander.database     import DatabaseLayer
+from scriptcommander.scripts  import ScriptManager
+from scriptcommander.database import DatabaseLayer
 
 # Constants
 _HASH_LENGTH_ = 8
@@ -52,14 +52,14 @@ def reload():
     sm        = ScriptManager()
     dbl       = DatabaseLayer()
     available = sm.scan_scripts()
-    active    = [x for x in dbl.get_scripts() if x['enabled']]
+    current   = dbl.get_scripts()
 
     # Hashes for searching
-    active_hashes    = [x['script_hash'] for x in active]
+    current_hashes   = [x['script_hash'] for x in current]
     available_hashes = [x['script_hash'] for x in available]
     # New scripts
-    new_scripts   = [x for x in available if x['script_hash'] not in active_hashes]
-    unavailable   = [x for x in active    if x['script_hash'] not in available_hashes]
+    new_scripts   = [x for x in available if x['script_hash'] not in current_hashes]
+    unavailable   = [x for x in current   if x['script_hash'] not in available_hashes]
     if len(new_scripts) == 0 and len(unavailable) == 0:
         click.echo("No changes detected")
         return
