@@ -55,11 +55,20 @@ class DatabaseLayer(metaclass=Singleton):
             level = _LOG_LEVELS_.get(level.lower(), 0)
         self.db.add_log(script_hash, now, level, text)
 
-    def get_logs(self, script_hash=None):
+    def get_logs(self, script_hash=None, level=None):
+        # Check if we use the log level names
+        if isinstance(level, str):
+            level = _LOG_LEVELS_.get(level.lower(), None)
+        # Check if we ended up with a valid int
+        if (not isinstance(level, int)
+           or (level > max(_LOG_LEVELS_.values()) and
+               level < min(_LOG_LEVELS_.values()))):
+             # If not a valid level, use the lowest
+            level = min(_LOG_LEVELS_.values())
         if script_hash:
-            logs = self.db.get_logs_for_script(script_hash)
+            logs = self.db.get_logs_for_script(script_hash, level)
         else:
-            logs = self.db.get_all_logs()
+            logs = self.db.get_all_logs_for_level(level)
         for log in logs:
             log['level'] = _LOG_LEVELS_REVERSED_[log['level']]
         return logs

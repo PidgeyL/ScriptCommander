@@ -109,9 +109,15 @@ class Database():
         return cur.execute("""SELECT *
                               FROM logs;""")
 
-
     @getting
-    def get_logs_for_script(self, cur, hash):
+    def get_all_logs_for_level(self, cur, log_level):
         return cur.execute("""SELECT *
                               FROM logs
-                              WHERE script_hash = ?;""", (hash,))
+                              WHERE level >= ?;""", (log_level,))
+
+    @getting
+    def get_logs_for_script(self, cur, hash, log_level):
+        return cur.execute("""SELECT *
+                              FROM logs
+                              WHERE script_hash = ?
+                                AND level >= ?;""", (hash, log_level))
