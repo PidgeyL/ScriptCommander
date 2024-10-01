@@ -49,6 +49,18 @@ class DatabaseLayer(metaclass=Singleton):
 
 
     # Logs
+    def _check_log_level(self, level):
+        # Check if we use the log level names
+        if isinstance(level, str):
+            level = _LOG_LEVELS_.get(level.lower(), None)
+        # Check if we ended up with a valid int
+        if (not isinstance(level, int)
+            or (level > max(_LOG_LEVELS_.values()) and
+                level < min(_LOG_LEVELS_.values()))):
+            # If not a valid level, use the lowest
+            level = min(_LOG_LEVELS_.values())
+        return level
+
     def add_log(self, script_hash, level, text):
         now = datetime.now()
         if isinstance(level, str):
@@ -56,15 +68,7 @@ class DatabaseLayer(metaclass=Singleton):
         self.db.add_log(script_hash, now, level, text)
 
     def get_logs(self, script_hash=None, level=None):
-        # Check if we use the log level names
-        if isinstance(level, str):
-            level = _LOG_LEVELS_.get(level.lower(), None)
-        # Check if we ended up with a valid int
-        if (not isinstance(level, int)
-           or (level > max(_LOG_LEVELS_.values()) and
-               level < min(_LOG_LEVELS_.values()))):
-             # If not a valid level, use the lowest
-            level = min(_LOG_LEVELS_.values())
+        level = self._check_log_level(level)
         if script_hash:
             logs = self.db.get_logs_for_script(script_hash, level)
         else:
@@ -72,3 +76,21 @@ class DatabaseLayer(metaclass=Singleton):
         for log in logs:
             log['level'] = _LOG_LEVELS_REVERSED_[log['level']]
         return logs
+
+    def del_logs_staging(self, script_hash=None, level=None):
+        if level:
+            level = self._check_log_level(level)
+        else:
+            level = max(_LOG_LEVELS_.values())
+        if not script_hash:
+            script_hash = "" # the "like" will make it any hash
+        return self.db.get_logs_for_script_reversed_level(script_hash, level)
+
+    def del_logs(self, script_hash=None, level=None):
+        if level:
+            level = self._check_log_level(level)
+        else:
+            level = max(_LOG_LEVELS_.values())
+        if not script_hash:
+            script_hash = "" # the "like" will make it any hash
+        self.db.del_logs(script_hash, level)

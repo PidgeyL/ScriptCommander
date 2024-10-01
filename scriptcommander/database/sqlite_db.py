@@ -119,5 +119,19 @@ class Database():
     def get_logs_for_script(self, cur, hash, log_level):
         return cur.execute("""SELECT *
                               FROM logs
-                              WHERE script_hash = ?
+                              WHERE script_hash LIKE ? || '%'
                                 AND level >= ?;""", (hash, log_level))
+
+    @getting
+    def get_logs_for_script_reversed_level(self, cur, hash, log_level):
+        return cur.execute("""SELECT *
+                              FROM logs
+                              WHERE script_hash LIKE ? || '%'
+                                AND level <= ?;""", (hash, log_level,))
+
+    @committing
+    def del_logs(self, cur, hash, log_level):
+        cur.execute("""DELETE
+                       FROM logs
+                       WHERE script_hash LIKE ? || '%'
+                         AND level <= ?;""", (hash, log_level))
