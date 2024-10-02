@@ -1,0 +1,9 @@
+[flake8]
+docstring-convention=google
+# E221 multiple spaces before operator
+# E272 multiple spaces before keyword
+# ANN101 Missing type annotation for self in method
+extend-ignore = E221, E272, E303, ANN101
+exclude = 
+max-complexity = 10
+max-line-length = 120

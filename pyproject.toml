@@ -3,16 +3,16 @@ name            = "scriptcommander"
 version         = "0.1.0"
 description     = "A manager to run scripts with settings, and log its output"
 readme          = "README.md"
-license         = {file = "LICENSE.txt"}
+license         = {file = "LICENSE.md"}
 requires-python = ">=3.7"
 keywords        = ["automation"]
 
 authors = [
-  {name = "Pieter-Jan Moreels", email = "pieter-jan.moreels@ccb.belgium.be" }
+  {name = "Pieter-Jan Moreels", email = "pieter-jan@pidgey.net" }
 ]
 
 maintainers = [
-  {name = "Pieter-Jan Moreels", email = "pieter-jan.moreels@ccb.belgium.be" }
+  {name = "Pieter-Jan Moreels", email = "pieter-jan@pidgey.net" }
 ]
 
 #TODO: Add here
@@ -41,23 +41,10 @@ dependencies = [
     "click"
 ]
 
-# List additional groups of dependencies here (e.g. development
-# dependencies). Users will be able to install these using the "extras"
-# syntax, for example:
-#
-#   $ pip install sampleproject[dev]
-#
-# Similar to `dependencies` above, these must be valid existing
-# projects.
-# [project.optional-dependencies] # Optional
-# dev = ["check-manifest"]
-# test = ["coverage"]
-
-# TODO: Add here
 [project.urls]
-"Homepage" = "https://github.com/pypa/sampleproject"
-"Bug Reports" = "https://github.com/pypa/sampleproject/issues"
-"Source" = "https://github.com/pypa/sampleproject/"
+"Homepage"    = "https://github.com/PidgeyL/ScriptCommander"
+"Bug Reports" = "https://github.com/PidgeyL/ScriptCommander/issues"
+"Source"      = "https://github.com/PidgeyL/ScriptCommander"
 
 # The following would provide a command line executable called `sample`
 # which executes the function `main` from this package when invoked.
